@@ -7,9 +7,9 @@ class App extends Component {
     return (
       <div className="App">
         <div className="container-fluid">
-          <div class="container">
+          <div className="container">
             <h2 className="text-center display-4">See how far you can get.</h2>
-            <Link to={"/trivia"}>Play</Link>
+            <Link to="/trivia">Play</Link>
           </div>
         </div>
       </div>

@@ -1,12 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
     <nav className="navbar">
       <h1>
-        <a href="" className="navbar-brand ">
+        <Link to="/" href="#" className="navbar-brand ">
           CodeTrivia
-        </a>
+        </Link>
       </h1>
     </nav>
   );
