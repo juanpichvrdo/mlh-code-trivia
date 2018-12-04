@@ -10,6 +10,7 @@ class TriviaQuestion extends Component {
 
   checkAnswer = e => {
     e.preventDefault();
+    this.props.manipulateClass();
     if (this.state.answer === this.state.correct_answer) {
       this.props.processAnswer("correct");
       this.setState({ wasCorrect: true });
@@ -26,7 +27,7 @@ class TriviaQuestion extends Component {
   render() {
     const { triviaData } = this.props;
     return (
-      <div className="triviaQuestion">
+      <div>
         <form onSubmit={this.checkAnswer}>
           <div className="answers">
             <p className="lead">{triviaData.question}</p>

@@ -1,28 +1,15 @@
 import React, { Component } from "react";
 import TriviaQuestion from "./TriviaQuestion";
 
+import "./trivia.css";
+
 class Trivia extends Component {
   state = {
-    gameIsPlaying: true,
+    triviaIsPlaying: true,
     triviaData: [],
-    answer: "",
-    score: 0,
-    wrongAnswers: 0
-  };
-
-  processAnswer = result => {
-    if (result === "correct") {
-      this.setState(prevState => {
-        return { score: prevState.score + 1 };
-      });
-    } else if (result === "incorrect") {
-      this.setState(prevState => {
-        return { wrongAnswers: prevState.wrongAnswers + 1 };
-      });
-      if (this.state.wrongAnswers === 3) {
-        this.setState({ gameIsPlaying: false });
-      }
-    }
+    correctAnswers: 0,
+    wrongAnswers: 0,
+    activeQuestion: 0
   };
 
   componentDidMount = async () => {
@@ -31,29 +18,68 @@ class Trivia extends Component {
         "https://cors-anywhere.herokuapp.com/http://triviamlh.herokuapp.com/api/trivias/1"
       );
       const triviaData = await response.json();
-
       this.setState({ triviaData });
-      console.log(triviaData);
     } catch (e) {
       console.log(e);
     }
   };
 
+  processAnswer = result => {
+    if (result === "correct") {
+      this.setState(prevState => {
+        return { correctAnswers: prevState.correctAnswers + 1 };
+      });
+    } else if (result === "incorrect") {
+      this.setState(prevState => {
+        return { wrongAnswers: prevState.wrongAnswers + 1 };
+      });
+      if (this.state.wrongAnswers === 3) {
+        this.setState({ triviaIsPlaying: false });
+      }
+    }
+  };
+
+  manipulateClass = index => {
+    this.setState({ activeQuestion: index + 1 });
+  };
+
   render() {
+    const {
+      triviaData,
+      triviaIsPlaying,
+      correctAnswers,
+      wrongAnswers,
+      activeQuestion
+    } = this.state;
+
     return (
       <div>
         <div className="container">
-          <p>Score: {this.state.score}</p>
-          <p>You have {4 - this.state.wrongAnswers} tries left</p>
-          {this.state.gameIsPlaying &&
-            this.state.triviaData.map(question => (
-              <TriviaQuestion
-                key={question.question}
-                processAnswer={this.processAnswer}
-                triviaData={question}
-              />
-            ))}
+          {triviaIsPlaying && (
+            <React.Fragment>
+              <p>Correct Answers: {correctAnswers}</p>
+              <p>You have {4 - wrongAnswers} tries left</p>
+            </React.Fragment>
+          )}
+          {triviaIsPlaying ? (
+            triviaData.map((question, index) => (
+              <div
+                key={index}
+                className={activeQuestion === index ? "activeQuestion" : ""}
+              >
+                <TriviaQuestion
+                  className="activeQuestion"
+                  processAnswer={this.processAnswer}
+                  manipulateClass={this.manipulateClass.bind(this, index)}
+                  triviaData={question}
+                />
+              </div>
+            ))
+          ) : (
+            <p>You had {correctAnswers} correct answers!</p>
+          )}
         </div>
+        <p>You had {correctAnswers} correct answers!</p>
       </div>
     );
   }
