@@ -1,3 +1,17 @@
+.questionContainer {
+  position: relative;
+}
+
+.question {
+  transform: translateX(100vw);
+  position: absolute;
+  transition: all 0.5s;
+}
+
 .activeQuestion {
-  background-color: orangered;
+  transform: translateX(0vw);
+}
+
+.removeQuestion {
+  transform: translateX(-100vw);
 }

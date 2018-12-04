@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import classNames from "classnames";
 import TriviaQuestion from "./TriviaQuestion";
 
 import "./trivia.css";
@@ -52,6 +53,12 @@ class Trivia extends Component {
       activeQuestion
     } = this.state;
 
+    // const questionClass = classNames({
+    //   activeQuestion: activeQuestion === this.index,
+    //   question: true,
+    //   removeQuestion: activeQuestion > this.index
+    // });
+
     return (
       <div>
         <div className="container">
@@ -61,28 +68,34 @@ class Trivia extends Component {
               <p>You have {4 - wrongAnswers} tries left</p>
             </React.Fragment>
           )}
-          {triviaIsPlaying ? (
-            triviaData.map((question, index) => (
-              <div
-                key={index}
-                className={activeQuestion === index ? "activeQuestion" : ""}
-              >
-                <TriviaQuestion
-                  className="activeQuestion"
-                  processAnswer={this.processAnswer}
-                  manipulateClass={this.manipulateClass.bind(this, index)}
-                  triviaData={question}
-                />
-              </div>
-            ))
-          ) : (
-            <p>You had {correctAnswers} correct answers!</p>
-          )}
+          <div className="questionsContainer">
+            {triviaIsPlaying ? (
+              triviaData.map((question, index) => (
+                <div
+                  key={index}
+                  className={classNames({
+                    activeQuestion: activeQuestion === index,
+                    question: true,
+                    removeQuestion: activeQuestion > index
+                  })}
+                >
+                  <TriviaQuestion
+                    className="activeQuestion"
+                    processAnswer={this.processAnswer}
+                    manipulateClass={this.manipulateClass.bind(this, index)}
+                    triviaData={question}
+                  />
+                </div>
+              ))
+            ) : (
+              <p>You had {correctAnswers} correct answers!</p>
+            )}
+          </div>
         </div>
-        <p>You had {correctAnswers} correct answers!</p>
       </div>
     );
   }
 }
+// <p>You had {correctAnswers} correct answers!</p>
 
 export default Trivia;
