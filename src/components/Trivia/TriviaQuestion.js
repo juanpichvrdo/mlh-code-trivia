@@ -5,12 +5,14 @@ class TriviaQuestion extends Component {
     answer: "",
     correct_answer: this.props.triviaData.correct_answer,
     wasCorrect: false,
-    wasIncorrect: false
+    wasIncorrect: false,
+    questionWasAnswered: false
   };
 
   checkAnswer = e => {
     e.preventDefault();
-    this.props.manipulateClass();
+    this.setState({ questionWasAnswered: true });
+
     if (this.state.answer === this.state.correct_answer) {
       this.props.processAnswer("correct");
       this.setState({ wasCorrect: true });
@@ -24,8 +26,18 @@ class TriviaQuestion extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  nextQuestion = () => {
+    this.props.manipulateClass();
+  };
+
   render() {
     const { triviaData } = this.props;
+    const {
+      correct_answer,
+      wasCorrect,
+      wasIncorrect,
+      questionWasAnswered
+    } = this.state;
     return (
       <div>
         <form onSubmit={this.checkAnswer}>
@@ -90,9 +102,20 @@ class TriviaQuestion extends Component {
           <button className="btn btn-success" type="submit">
             Submit
           </button>
-          {this.state.wasCorrect && <p>Correct!</p>}
-          {this.state.wasIncorrect && <p>Incorrect :/</p>}
+
+          {wasCorrect && <p>Correct!</p>}
+          {wasIncorrect && <p>Incorrect :/</p>}
         </form>
+        {questionWasAnswered && (
+          <button
+            className="btn btn-info"
+            type="submit"
+            onClick={this.nextQuestion}
+          >
+            Next Question
+          </button>
+        )}
+        {wasIncorrect && <p>Correct Answer: {correct_answer} </p>}
       </div>
     );
   }
