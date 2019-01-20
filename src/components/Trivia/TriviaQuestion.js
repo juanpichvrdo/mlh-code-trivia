@@ -26,9 +26,11 @@ class TriviaQuestion extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  nextQuestion = () => {
-    this.props.manipulateClass();
-  };
+  // nextQuestion = () => {
+  //   this.props.manipulateClass();
+  // };
+
+  nextQuestion = () => this.props.manipulateClass();
 
   render() {
     const { triviaData } = this.props;
@@ -51,6 +53,7 @@ class TriviaQuestion extends Component {
                 name="answer"
                 className="answerBtn"
                 id={triviaData.answer0}
+                disabled={questionWasAnswered}
               />
               <label htmlFor={triviaData.answer0} className="answerBtn">
                 {triviaData.answer0}
@@ -65,6 +68,7 @@ class TriviaQuestion extends Component {
                 name="answer"
                 className="answerBtn"
                 id={triviaData.answer1}
+                disabled={questionWasAnswered}
               />
               <label htmlFor={triviaData.answer1} className="answerBtn">
                 {triviaData.answer1}
@@ -79,6 +83,7 @@ class TriviaQuestion extends Component {
                 name="answer"
                 className="answerBtn"
                 id={triviaData.answer2}
+                disabled={questionWasAnswered}
               />
               <label htmlFor={triviaData.answer2} className="answerBtn">
                 {triviaData.answer2}
@@ -93,15 +98,19 @@ class TriviaQuestion extends Component {
                 name="answer"
                 className="answerBtn"
                 id={triviaData.answer3}
+                disabled={questionWasAnswered}
               />
               <label htmlFor={triviaData.answer3} className="answerBtn">
                 {triviaData.answer3}
               </label>
             </div>
           </div>
-          <button className="btn btn-success" type="submit">
-            Submit
-          </button>
+
+          {!questionWasAnswered && (
+            <button className="btn btn-success" type="submit">
+              Submit
+            </button>
+          )}
 
           {wasCorrect && <p>Correct!</p>}
           {wasIncorrect && <p>Incorrect :/</p>}

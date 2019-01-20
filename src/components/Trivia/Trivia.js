@@ -53,12 +53,6 @@ class Trivia extends Component {
       activeQuestion
     } = this.state;
 
-    // const questionClass = classNames({
-    //   activeQuestion: activeQuestion === this.index,
-    //   question: true,
-    //   removeQuestion: activeQuestion > this.index
-    // });
-
     return (
       <div>
         <div className="container">
@@ -96,6 +90,5 @@ class Trivia extends Component {
     );
   }
 }
-// <p>You had {correctAnswers} correct answers!</p>
 
 export default Trivia;
